@@ -14,7 +14,6 @@ var (
 )
 
 func init() {
-	//cmd line args
 	flag.StringVar(&port, "port", "8080", "port to listen to")
 	flag.StringVar(&destination, "dest", "", "destination addr")
 }
