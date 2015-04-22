@@ -1,3 +1,3 @@
 FROM golang
-RUN go build -o /bin/http_proxy main.go
+RUN go get github.com/bountylabs/http_proxy
 ENTRYPOINT http_proxy
