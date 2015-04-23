@@ -37,6 +37,12 @@ func main() {
 	log.Infoln("Redirecting to", url)
 
 	client := httputil.NewSingleHostReverseProxy(url)
+	orig := client.Director
+	client.Director = func(req *http.Request) {
+		orig(req)
+		log.Infoln(req.URL)
+	}
+
 	if err := http.ListenAndServe(":"+port, client); err != nil {
 		log.Panicln(err)
 	}
