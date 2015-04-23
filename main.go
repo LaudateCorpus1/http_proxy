@@ -2,10 +2,11 @@ package main
 
 import (
 	"flag"
-	"log"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+
+	"github.com/bountylabs/log"
 )
 
 var (
@@ -25,11 +26,18 @@ func main() {
 		flag.Parse()
 	}
 
+	if destination == "" {
+		log.Panicln("requires destination")
+	}
+
 	url, err := url.Parse(destination)
 	if err != nil {
 		log.Panicln(err)
 	}
+	log.Infoln("Redirecting to", url)
 
 	client := httputil.NewSingleHostReverseProxy(url)
-	log.Fatal(http.ListenAndServe(":"+port, client))
+	if err := http.ListenAndServe(":"+port, client); err != nil {
+		log.Panicln(err)
+	}
 }
