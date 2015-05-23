@@ -7,6 +7,7 @@ import (
 	"net/url"
 
 	"github.com/bountylabs/log"
+	"github.com/tonnerre/golang-pretty"
 )
 
 var (
@@ -41,6 +42,7 @@ func main() {
 	client.Director = func(req *http.Request) {
 		orig(req)
 		log.Infoln(req.URL)
+		pretty.Log(req.Header)
 	}
 
 	if err := http.ListenAndServe(":"+port, client); err != nil {
